@@ -7,6 +7,7 @@
 
 - NestJS
 - ExpressJS
+- MongoDB
 - PassportJS(JWT)
 - argon2
 
