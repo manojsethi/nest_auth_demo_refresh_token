@@ -1,5 +1,5 @@
 
-# NestJS Authentication Demo with AuthToken and RefreshToken, MongoDB as Database
+# NestJS Authentication Demo with AuthToken and RefreshToken, MongoDB as Database and PassportJS as Authentication Middleware Library
 
 ### This is a base of a new project that require credentials authentication. 
 
