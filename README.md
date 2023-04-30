@@ -1,73 +1,165 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# NestJS Authentication Demo with AuthToken and RefreshToken, MongoDB as Database
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+### This is a base of a new project that require credentials authentication. 
 
-## Description
+#### Technologies Used
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- NestJS
+- ExpressJS
+- PassportJS(JWT)
+- argon2
 
-## Installation
 
-```bash
-$ npm install
+You can replace the file env.example to .env in your local environment and replace the values with real values
+
+You can create the secret keys with the below little utility
+
+```
+node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
+OR
+node -e "console.log(require('crypto').randomBytes(48).toString('base64'))"
 ```
 
-## Running the app
+## Usage/Examples
 
-```bash
-# development
-$ npm run start
+```
+npm i
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm run start:dev
 ```
 
-## Test
+API can be listened at localhost 3000
 
-```bash
-# unit tests
-$ npm run test
 
-# e2e tests
-$ npm run test:e2e
+## API Reference
 
-# test coverage
-$ npm run test:cov
+#### Sign Up a new user
+
+```http
+  POST /auth/signup
 ```
 
-## Support
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `name` | `string` | **Required**. Name of the person signing up |
+| `email` | `string` | **Required**. Email of the person signing up |
+| `password` | `string` | **Required**. Password of the person signing up |
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Password is hashed and saved in the db. 
 
-## Stay in touch
+**Example**
+```
+{
+    "name": "Manoj",
+    "email": "manojsethi@manojsethi.com",
+    "password": "MyRandomPassword"
+}
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Auth Endpoints
+#### SignIn
 
-## License
+```http
+  GET /auth/signin
+```
 
-Nest is [MIT licensed](LICENSE).
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `email` | `string` | **Required**. Email of the person signing in |
+| `password` | `string` | **Required**. Password of the person signing in |
+
+**Example**
+```
+{
+    "email": "manojsethi@manojsethi.com",
+    "password": "MyRandomPassword"
+}
+```
+
+#### SignIn
+
+```http
+  POST /auth/signin
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `email` | `string` | **Required**. Email of the person signing in |
+| `password` | `string` | **Required**. Password of the person signing in |
+
+**Example**
+```
+{
+    "email": "manojsethi@manojsethi.com",
+    "password": "MyRandomPassword"
+}
+```
+
+After you are logged in you need to set the Authorization Header with the value of Bearer {{AccessToken}} in order to access the further API
+
+#### RefreshToken
+
+```http
+  GET /auth/refresh
+```
+**NOTE** You need to pass Authorization Header with Bearer {{RefreshToken}} (RefreshToken received in signin request) to get the new pair of tokens.
+
+```http
+  GET /auth/logout
+```
+**NOTE** You need to pass Authorization Header with Bearer {{AccessToken}} (AccessToken received in signin request) as Logout is a secured route and is authenticated by AccessToken.
+
+### Users Endpoints
+
+#### Get All Users
+
+```http
+  GET /users
+```
+
+#### Get User By ID
+
+```http
+  GET /users/:id
+```
+
+#### Update User By ID
+
+```http
+  PATCH /users/:id
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `name` | `string` | **Optional** Name of the person |
+| `email` | `string` | **Optional** Email of the person |
+| `password` | `string` | **Optional** Password of the person |
+
+**Example**
+```
+{
+    "email": "manojsethi@manojsethi.com",
+    "password": "MyRandomPassword"
+}
+```
+
+#### Delete User By ID
+
+```http
+  DELETE /users/:id
+```
+
+## 🚀 About Me [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://in.linkedin.com/in/sethimanoj)
+I'm a full stack developer working with Javascript Technologies. I have experience with
+- NodeJS
+- NestJS
+- TypeScript
+- ReactJS
+- NextJS
+- Docker
+- Kubernetes
+- AWS/Digital Ocean/GCP
+- NGINX
+- GraphQL
+
