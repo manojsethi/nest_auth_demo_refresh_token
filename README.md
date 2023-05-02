@@ -11,6 +11,7 @@
 - PassportJS(JWT)
 - argon2
 
+**Frontend - NextJS(Next-Auth)** - https://github.com/manojsethi/next-auth-demo
 
 You can replace the file env.example to .env in your local environment and replace the values with real values
 
