@@ -8,17 +8,8 @@ import { AuthService } from './auth.service';
 import { AccessTokenStrategy } from './strategies/accessToken.strategy';
 import { RefreshTokenStrategy } from './strategies/refreshToken.strategy';
 
-// const jwtFactory = {
-//   useFactory: async (configService: ConfigService) => ({
-//     secret: configService.get('ACCESS_TOKEN_SECRET'),
-//     signOptions: {
-//       expiresIn: configService.get('ACCESS_TOKEN_EXPIRATION'),
-//     },
-//   }),
-//   inject: [ConfigService],
-// };
 @Module({
-  imports: [UsersModule, PassportModule, JwtModule.register({}), UsersModule],
+  imports: [PassportModule, JwtModule.register({}), UsersModule],
   controllers: [AuthController],
   providers: [
     ConfigService,
