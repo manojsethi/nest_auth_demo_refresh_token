@@ -8,10 +8,10 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { AccessTokenGuard } from 'src/common/gaurds/gaurd.access_token';
-import { User } from 'src/_schemas/user.schema';
+import { AccessTokenGuard } from '../common/gaurds/gaurd.access_token';
 import { CreateUserDto } from '../_dtos/create_user.dto';
 import { UpdateUserDto } from '../_dtos/update_user.dto';
+import { User } from '../_schemas/user.schema';
 import { UsersService } from './users.service';
 
 @UseGuards(AccessTokenGuard)

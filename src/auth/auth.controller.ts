@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
-import { AccessTokenGuard } from 'src/common/gaurds/gaurd.access_token';
-import { RefreshTokenGuard } from 'src/common/gaurds/gaurd.refresh_token';
-import { AuthDto } from 'src/_dtos/auth.dto';
-import { CreateUserDto } from 'src/_dtos/create_user.dto';
-import { AuthRequest } from 'src/_types/req.auth.interface';
+import { AccessTokenGuard } from '../common/gaurds/gaurd.access_token';
+import { RefreshTokenGuard } from '../common/gaurds/gaurd.refresh_token';
+import { AuthDto } from '../_dtos/auth.dto';
+import { CreateUserDto } from '../_dtos/create_user.dto';
+import { AuthRequest } from '../_types/req.auth.interface';
 import { AuthService } from './auth.service';
 @Controller('auth')
 export class AuthController {

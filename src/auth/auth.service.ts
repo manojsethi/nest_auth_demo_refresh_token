@@ -6,11 +6,11 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
-import { UsersService } from 'src/users/users.service';
-import { AuthDto } from 'src/_dtos/auth.dto';
-import { CreateUserDto } from 'src/_dtos/create_user.dto';
-import { LoginResponse } from 'src/_types/res.login.interface';
-import { Tokens } from 'src/_types/tokens.type';
+import { UsersService } from '../users/users.service';
+import { AuthDto } from '../_dtos/auth.dto';
+import { CreateUserDto } from '../_dtos/create_user.dto';
+import { LoginResponse } from '../_types/res.login.interface';
+import { Tokens } from '../_types/tokens.type';
 
 @Injectable()
 export class AuthService {
