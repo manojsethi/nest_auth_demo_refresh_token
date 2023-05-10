@@ -12,27 +12,3 @@ jobs:
         run: |
           npm ci
           npm run lint
-  test:
-    needs: [lint]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download Code
-        uses: actions/checkout@v3
-      - name: Setup Node
-        uses: actions/setup-node@v3
-      - name: Install Dependencies and Run Tests
-        run: |
-          npm ci
-          echo "Test Ran Successfull"
-  deploy:
-    needs: [lint, test]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download Code
-        uses: actions/checkout@v3
-      - name: Setup Node
-        uses: actions/setup-node@v3
-      - name: Install Dependencies and Run Tests
-        run: |
-          npm ci
-          echo "Deployment Successfull"
