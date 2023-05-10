@@ -1,9 +1,9 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { AuthUser } from '../common/decorator/decorator.auth_user';
 import { AccessTokenGuard } from '../common/gaurds/gaurd.access_token';
 import { RefreshTokenGuard } from '../common/gaurds/gaurd.refresh_token';
 import { AuthDto } from '../_dtos/auth.dto';
 import { CreateUserDto } from '../_dtos/create_user.dto';
-import { AuthRequest } from '../_types/req.auth.interface';
 import { AuthService } from './auth.service';
 @Controller('auth')
 export class AuthController {
@@ -21,14 +21,15 @@ export class AuthController {
 
   @UseGuards(AccessTokenGuard)
   @Get('logout')
-  logout(@Req() req: AuthRequest) {
-    this.authService.logout(req.user['sub']);
+  logout(@AuthUser('sub') sub: string) {
+    return this.authService.logout(sub);
   }
   @UseGuards(RefreshTokenGuard)
   @Get('refresh')
-  refreshTokens(@Req() req: AuthRequest) {
-    const userId = req.user['sub'];
-    const refreshToken = req.user['refreshToken'];
-    return this.authService.refreshTokens(userId, refreshToken);
+  refreshTokens(
+    @AuthUser('sub') sub: string,
+    @AuthUser('refreshToken') refreshToken: string,
+  ) {
+    return this.authService.refreshTokens(sub, refreshToken);
   }
 }

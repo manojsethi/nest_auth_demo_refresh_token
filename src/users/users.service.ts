@@ -27,13 +27,11 @@ export class UsersService {
     return this.userModel.findOne({ email }).exec();
   }
 
-  async update(
-    id: string,
-    updateUserDto: UpdateUserDto,
-  ): Promise<UserDocument> {
-    return this.userModel
-      .findByIdAndUpdate(id, updateUserDto, { new: true })
-      .exec();
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<boolean> {
+    await this.userModel.findByIdAndUpdate(id, updateUserDto, {
+      new: true,
+    });
+    return true;
   }
 
   async remove(id: string): Promise<UserDocument> {
