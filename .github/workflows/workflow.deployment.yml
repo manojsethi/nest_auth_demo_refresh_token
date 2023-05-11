@@ -1,5 +1,11 @@
 name: Deployment
 on: [push, workflow_dispatch]
+env:
+  MONGODB_URI: ${{ secrets.MONGODB_URI }}
+  ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
+  ACCESS_TOKEN_EXPIRATION: ${{ secrets.ACCESS_TOKEN_EXPIRATION }}
+  REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET }}
+  REFRESH_TOKEN_EXPIRATION: ${{ secrets.REFRESH_TOKEN_EXPIRATION }}
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -23,7 +29,7 @@ jobs:
       - name: Install Dependencies and Run Tests
         run: |
           npm ci
-          echo "Test Ran Successfull"
+          npm run test
   deploy:
     needs: [lint, test]
     runs-on: ubuntu-latest
