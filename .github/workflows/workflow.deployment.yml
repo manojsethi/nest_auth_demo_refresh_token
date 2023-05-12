@@ -25,6 +25,10 @@ jobs:
         with:
           path: ~/.npm
           key: npm-cache-${{ hashFiles('**/package-lock.json') }}
+      - if: ${{ steps.step_cache_npm_dir.outputs.cache-hit != 'true' }}
+        name: List the state of node modules
+        continue-on-error: true
+        run: npm list
       - name: Install Dependencies and Run Linter
         run: |
           npm ci
