@@ -23,7 +23,7 @@ jobs:
         id: step_cache_npm_dir
         uses: actions/cache@v3
         with:
-          path: ${{ steps.step_dir.outputs.dir }}
+          path: ~/.npm
           key: npm-cache-${{ hashFiles('**/package-lock.json') }}
       - name: Install Dependencies and Run Linter
         run: |
@@ -40,7 +40,7 @@ jobs:
       - name: Set Cache For NPM Packages
         uses: actions/cache@v3
         with:
-          path: ${{ needs.lint.outputs.npm-cache-dir }}
+          path: ~/.npm
           key: npm-cache-${{ hashFiles('**/package-lock.json') }}
       - name: Install Dependencies
         run: npm ci
@@ -57,7 +57,7 @@ jobs:
       - name: Set Cache For NPM Packages
         uses: actions/cache@v3
         with:
-          path: ${{ needs.lint.outputs.npm-cache-dir }}
+          path: ~/.npm
           key: npm-cache-${{ hashFiles('**/package-lock.json') }}
       - name: Install Dependencies and Deploy
         run: |
